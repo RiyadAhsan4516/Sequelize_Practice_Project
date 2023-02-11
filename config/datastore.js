@@ -30,14 +30,10 @@ const db = {
 
 // DEFINE ASSOCIATIONS
 db.User.hasOne(db.UserProfile, {foreignKey: 'user_id', onDelete: 'RESTRICT', onUpdate: 'RESTRICT'});
-db.UserProfile.belongsTo(db.User,{
-    foreignKey:{
-        name: 'user_id',
-    },
-    onDelete: 'RESTRICT',
-    onUpdate: 'RESTRICT'
-})
+db.UserProfile.belongsTo(db.User,{foreignKey: 'user_id', onDelete: 'RESTRICT', onUpdate: 'RESTRICT'});
+db.Role.hasMany(db.UserProfile, {foreignKey:'role_id', onDelete: 'RESTRICT', onUpdate: 'RESTRICT'});
+db.UserProfile.belongsTo(db.Role, {foreignKey:'role_id', onDelete:'RESTRICT', onUpdate: 'RESTRICT'});
 
-sequelize.sync();
+// sequelize.sync();
 
 module.exports = db;

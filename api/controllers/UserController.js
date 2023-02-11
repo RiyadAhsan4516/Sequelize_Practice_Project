@@ -2,7 +2,7 @@ const User = require("../../config/datastore").User;
 
 module.exports = {
     GetAllUsers : async function(req, res, next){
-        const user = await User.findAll();
+        const user = await User.findAll({include:{all:true, nested: true}});
         res.status(200).json({
             status: "Success",
             data: user

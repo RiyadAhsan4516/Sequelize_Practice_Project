@@ -19,6 +19,9 @@ module.exports = (sequelize)=>{
         user_id:{
             type: dt.INTEGER
         },
+        role_id:{
+            type: dt.INTEGER
+        }
     },{
         createdAt: false,
         updatedAt: false
