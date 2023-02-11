@@ -1,7 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
 const cors = require('cors');
-// const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const rateLimiter = require("express-rate-limit");
@@ -23,13 +22,13 @@ const limiter = rateLimiter({
     windowMs: 60*60*1000,
     message: "Request limit reached. Please try again later"
 })
+app.use('/api', limiter);
 
 if (process.env.NODE_ENV === "development") {
     console.log("Environment switched to development");
     app.use(logger("dev"));
 }
 
-// app.use('/api', limiter);
 app.use(express.json({limit:'10kb'}));
 app.use(cookieParser());
 app.use(xss());

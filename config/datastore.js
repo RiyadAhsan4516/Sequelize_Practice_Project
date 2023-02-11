@@ -1,5 +1,5 @@
-const Sequelize = require("sequelize");
-const dbinfo = require("./local");
+const {Sequelize} = require("sequelize");
+const dbInfo = require("./local");
 
 let sequelizeOptions = {
     host: 'localhost',
@@ -9,7 +9,7 @@ let sequelizeOptions = {
 }
 if(process.env.NODE_ENV === 'development') delete sequelizeOptions.logging;
 
-const sequelize = new Sequelize(dbinfo.DBNAME, dbinfo.USER, dbinfo.PASSWORD, sequelizeOptions)
+const sequelize = new Sequelize(dbInfo.DBNAME, dbInfo.USER, dbInfo.PASSWORD, sequelizeOptions);
 
 // CHECK CONNECTION (DURING DEVELOPMENT ONLY)
 try {
@@ -24,7 +24,20 @@ try {
 // DEFINE MODELS USING THIS CONNECTION
 const db = {
     User : require("../api/models/User")(sequelize),
-    UserProfile: require("../api/models/UserProfile")(sequelize)
+    UserProfile: require("../api/models/UserProfile")(sequelize),
+    Role: require("../api/models/Role")(sequelize)
 }
+
+// DEFINE ASSOCIATIONS
+db.User.hasOne(db.UserProfile, {foreignKey: 'user_id', onDelete: 'RESTRICT', onUpdate: 'RESTRICT'});
+db.UserProfile.belongsTo(db.User,{
+    foreignKey:{
+        name: 'user_id',
+    },
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT'
+})
+
+sequelize.sync();
 
 module.exports = db;
