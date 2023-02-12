@@ -2,7 +2,7 @@ const {DataTypes} = require("sequelize");
 const dt = DataTypes;
 
 module.exports = (sequelize)=>{
-    const UserProfile = sequelize.define('user_profile', {
+    return sequelize.define('user_profile', {
         id:{
             type: dt.INTEGER,
             autoIncrement: true,
@@ -24,7 +24,7 @@ module.exports = (sequelize)=>{
         }
     },{
         createdAt: false,
-        updatedAt: false
+        updatedAt: false,
+        tableName: 'user_profile'
     })
-    return UserProfile
 }

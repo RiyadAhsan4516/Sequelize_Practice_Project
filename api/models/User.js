@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 module.exports = (sequelize)=>{
-    return sequelize.define('users',{
+    return sequelize.define('user',{
         id:{
             type: Sequelize.INTEGER,
             autoIncrement: true,
@@ -35,6 +35,7 @@ module.exports = (sequelize)=>{
         updatedAt: false,
         defaultScope:{
             attributes: {exclude:['password']}
-        }
+        },
+        tableName: 'user'
     })
 }
