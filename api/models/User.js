@@ -1,22 +1,40 @@
 const Sequelize = require("sequelize");
 module.exports = (sequelize)=>{
-    const User = sequelize.define('users',{
+    return sequelize.define('users',{
         id:{
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
         email:{
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.DataTypes.STRING(100),
+            allowNull: false,
+            unique: true,
+            validate:{
+                isEmail: {msg: 'Invalid email provided'}
+            }
         },
         password:{
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.DataTypes.STRING(100),
+            allowNull: false,
+            validate:{
+                len:{
+                    args: [8,100],
+                    msg: "The minimum length of password must be 8 and maximum is 100"
+                },
+                notEmpty:{
+                    msg: 'the password field is empty'
+                }
+            },
+            set(value){
+                this.setDataValue('password', value.trim())
+            }
         },
     },{
         createdAt: false,
-        updatedAt: false
+        updatedAt: false,
+        defaultScope:{
+            attributes: {exclude:['password']}
+        }
     })
-    return User
 }
