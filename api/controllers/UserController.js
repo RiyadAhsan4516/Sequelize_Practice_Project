@@ -11,7 +11,7 @@ module.exports = {
 
     CreateUsers: async function(req, res, next){
         try{
-            const user = await User.create({...req.body}); // this is just a comment
+            const user = await User.create({...req.body}); // this is and edited commit
             res.status(200).json({
                 status: "successful",
                 data: user
